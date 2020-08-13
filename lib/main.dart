@@ -4,7 +4,7 @@ import 'package:quotes/quotes.dart';
 
 void main() {
   runApp(Home());
-}
+} 
 
 class Home extends StatefulWidget {
   @override
