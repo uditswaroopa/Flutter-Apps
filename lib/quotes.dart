@@ -3,5 +3,4 @@ class Quotes{
   String author;
 
   Quotes({this.q,this.author});
-  
 }

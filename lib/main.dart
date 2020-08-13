@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quotes/Card.dart';
 import 'package:quotes/quotes.dart';
 
 void main() {
@@ -11,36 +12,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-  Widget quoteTempelate(quote) {
-    return Card(
-        child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(
-            quote.q,
-            style: TextStyle(
-              fontSize: 15.0,
-              fontWeight: FontWeight.w700,
-              color: Colors.grey[900]
-            ),
-          ),
-          SizedBox(height: 15),
-          Text(quote.author,
-            style: TextStyle(
-              fontSize: 13.0,
-              fontWeight: FontWeight.w900,
-              color: Colors.grey[900]
-            ),
-          ),
-          SizedBox(height: 15),
-        ],
-      ),
-    ));
-  }
-
   List<Quotes> quotes = [
     Quotes(q: 'Hre Krsna Hre Krsna Krsna Krsna Hre Hre', author: 'C. Prabhu'),
     Quotes(q: 'Hare Rama Hare Rama Rama Rama Hare Hare', author: 'C. Prabhu'),
@@ -53,10 +24,21 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.grey[100],
         appBar: AppBar(title: Text('Quotes')),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: quotes.map((e) => quoteTempelate(e)).toList(),
+          children: quotes
+              .map(
+                (e) => QuoteCard(
+                  quote: e,
+                  delete: () {
+                    setState(() {
+                      quotes.remove(e);
+                    });
+                  },
+                ),
+              ).toList(),
         ),
       ),
     );
