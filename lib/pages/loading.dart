@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:quotes/services.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -9,22 +8,33 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   
-  void getData() async{
-    Response r = await get('https://jsonplaceholder.typicode.com/todos/1');
-    Map data = jsonDecode(r.body);
-    print(data);
-    print(data['title']);
+  String time = 'loading';
+
+  void setTime() async {
+    WorldTime t = WorldTime(location: 'Kolkata',url: 'Asia/Kolkata',flag: 'India.png');
+    await t.getTime();
+    setState(() {
+      time = t.time;
+    });
+    Navigator.pushReplacementNamed(context, '/home', arguments: {
+      'location' : t.location,
+      'flag': t.flag,
+      'time': t.time,
+    });
   }
+
   @override
   void initState() {
     super.initState();
-    getData();
+    setTime();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Text('Loadin Page'),
+        body: Center(
+          child: Text(time),
+        ),
     );
   }
 }
