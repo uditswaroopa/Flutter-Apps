@@ -2,32 +2,38 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
-class WorldTime{
-  String time;
-  String location;
-  String url;
-  String flag;
+class WorldTime {
 
-  WorldTime({this.location,this.url,this.flag});
+  String location; // location name for UI
+  String time; // the time in that location
+  String flag; // url to an asset flag icon
+  String url; // location url for api endpoint
+  bool isDaytime; // true or false if daytime or not
 
-  Future<void> getTime() async{
+  WorldTime({ this.location, this.flag, this.url });
+
+  Future<void> getTime() async {
 
     try{
-      Response r = await get('http://worldtimeapi.org/api/timezone/$url');
-      Map data = jsonDecode(r.body);
+      // make the request
+      Response response = await get('http://worldtimeapi.org/api/timezone/$url');
+      Map data = jsonDecode(response.body);
+
+      // get properties from json
       String datetime = data['datetime'];
-      String hour = data['utc_offset'].substring(1,3);
+      String offset = data['utc_offset'].substring(1,3);
 
-      String minute = data['utc_offset'].substring(4,6);
-
+      // create DateTime object
       DateTime now = DateTime.parse(datetime);
-      now = now.add(Duration(hours: int.parse(hour),minutes: int.parse(minute)));
+      now = now.add(Duration(hours: int.parse(offset)));
 
+      // set the time property
+      isDaytime = now.hour > 6 && now.hour < 20 ? true : false;
       time = DateFormat.jm().format(now);
     }
-    catch(e){
-      print('Exception Caught $e');
-      time = 'Could not get Time for this location!';
+    catch (e) {
+      print(e);
+      time = 'could not get time';
     }
   }
 }
