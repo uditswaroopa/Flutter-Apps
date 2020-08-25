@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quotes/services/auth.dart';
 
 class SignIn extends StatefulWidget {
+  final Function toogle;
+  SignIn({this.toogle});
   @override
   _SignInState createState() => _SignInState();
 }
@@ -12,7 +14,15 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('SIGN IN')),
+      appBar: AppBar(
+        title: Text('SIGN IN'),
+        actions: [FlatButton.icon(
+          onPressed: () => widget.toogle(), 
+          icon: Icon(Icons.person), 
+          label: Text('Register'),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
