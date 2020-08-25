@@ -8,25 +8,42 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   AuthService _user = AuthService();
+  String pass = '', email = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('SIGN IN')),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
-        child: RaisedButton(
-          onPressed: () async {
-            dynamic result = await _user.signInAnon();
-            if(result == null)
-              print('Error signing in');
-            else
-              print(result);
-              print(result.uid);
-          },
-          child: Text('Sign In Anonymously'),
-          color: Colors.grey[800],
-          textColor: Colors.white70,
-        )
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+          child: Form(
+              child: Column(children: <Widget>[
+            SizedBox(height: 5),
+            TextFormField(
+              onChanged: (val) {
+                setState(() {
+                  email = val;
+                });
+              },
+            ),
+            SizedBox(height: 15),
+            TextFormField(
+              obscureText: true,
+              onChanged: (val) {
+                setState(() {
+                  pass = val;
+                });
+              },
+            ),
+            SizedBox(height: 25),
+            RaisedButton(
+                child: Text('Sign In'),
+                onPressed: () {
+                  print(email);
+                  print(pass);
+                })
+          ])),
+        ),
       ),
     );
   }
