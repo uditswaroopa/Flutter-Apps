@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
         value: DatabaseService().brewstream,
         child: Scaffold(
         appBar: AppBar(
-          title: Text('Home'),
+          title: Text('Homie'),
           actions: <Widget>[
             FlatButton.icon(
               onPressed: (){
